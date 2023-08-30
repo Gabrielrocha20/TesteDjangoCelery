@@ -1,0 +1,46 @@
+version: "3"
+   
+services:
+    django:
+        build: 
+            context: ./testeDjango
+        container_name: django
+        command: python manage.py runserver 0.0.0.0:8000
+        volumes:
+            - ./testeDjango:/app
+        ports:
+            - "8000:8000"
+        environment:
+            - DEBUG=1
+            - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+            - CELERY_BROKER=redis://redis:6379/0
+            - CELERY_BACKEND=redis://redis:6379/0
+        depends_on:
+            - redis
+    celery:
+        build: 
+            context: ./testeDjango
+        command: celery -A Project worker -l INFO
+        volumes:
+            - ./testeDjango:/app
+        environment:
+            - DEBUG=1
+            - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+            - CELERY_BROKER=redis://redis:6379/0
+            - CELERY_BACKEND=redis://redis:6379/0
+        depends_on:
+            - django
+            - redis
+    redis:
+        image: "redis:alpine"
+    react:
+        build:
+            context: ./frontend  # Diretório onde está o Dockerfile do front-end
+        ports:
+            - "3000:3000"  # Mapear a porta do contêiner para a porta do host
+        volumes:
+            - ./frontend:/app/build   # Montar o código do front-end no contêiner
+        environment:
+            - REACT_APP_API_URL=http://localhost:8000  # Substitua pelo URL correto do seu backend
+volumes:
+    pgdata:
