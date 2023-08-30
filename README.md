@@ -73,10 +73,6 @@ Observe que o Celery não funciona no Windows, portanto, é recomendável usar o
 
 # Exemplo de Docker Compose para Aplicação Multi-Container
 
-Este é um exemplo de arquivo `docker-compose.yml` que ilustra como executar vários serviços como contêineres Docker usando o Docker Compose. Neste exemplo, as imagens são criadas a partir de `gabrielrocha20/testedjango:redis`, `gabrielrocha20/testedjango:django`, `gabrielrocha20/testedjango:celery` e `gabrielrocha20/testedjango:react`.
-
-Certifique-se de ajustar as configurações, imagens e variáveis de ambiente de acordo com suas necessidades.
-
 ```yaml
 version: '3'
 services:
@@ -114,8 +110,14 @@ services:
       - REACT_APP_API_URL=http://localhost:8000
 ```
 
-aqui esta o link de cada imagem do docker
+faça o Pull dessas imagens para conseguir testar o projeto
+```
 docker pull gabrielrocha20/testedjango:redis
 docker pull gabrielrocha20/testedjango:django
 docker pull gabrielrocha20/testedjango:celery
 docker pull gabrielrocha20/testedjango:react
+```
+
+### logo depois **`docker-compose up`** na pasta do arquivo docker-compose
+
+logo apos sera carregado todo o projeto e voce podera testar
