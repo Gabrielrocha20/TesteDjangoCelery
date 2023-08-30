@@ -121,3 +121,6 @@ docker pull gabrielrocha20/testedjango:react
 ### logo depois **`docker-compose up`** na pasta do arquivo docker-compose
 
 logo apos sera carregado todo o projeto e voce podera testar
+
+### Link do repositorio docker
+<a>https://hub.docker.com/repository/docker/gabrielrocha20/testedjango/general</a>
