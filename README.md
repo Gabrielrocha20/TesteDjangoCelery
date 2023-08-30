@@ -32,15 +32,15 @@ O modelo **`Propostas`** representa as propostas aceitas pela API. Ele contém u
 
 ## **Endpoints da API**
 
-### **GET /propostas**
+### **GET /propostas/api/v1/**
 
 Este endpoint recupera todas as propostas salvas.
 
-### **GET /campo_proposta**
+### **GET /propostas/api/v1/campo-proposta/**
 
 Este endpoint fornece todas as perguntas criadas pelos administradores no painel de controle (ADM).
 
-### **POST /register**
+### **POST /propostas/api/v1/register/**
 
 Este é um endpoint crucial, onde o frontend precisa enviar um payload JSON no seguinte formato:
 
