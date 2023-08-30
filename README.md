@@ -35,6 +35,9 @@ O modelo **`Propostas`** representa as propostas aceitas pela API. Ele contém u
 ### **GET /propostas/api/v1/**
 
 Este endpoint recupera todas as propostas salvas.
+### **GET /propostas/api/v1/<int:id>/**
+
+Este endpoint recupera uma proposta com id informado pela url
 
 ### **GET /propostas/api/v1/campo-proposta/**
 
@@ -68,76 +71,51 @@ Para simplificar o processo de teste sem a necessidade de baixar este repositór
 
 Observe que o Celery não funciona no Windows, portanto, é recomendável usar o Docker para uma experiência mais tranquila.
 
-Sinta-se à vontade para usar esta documentação como referência ao interagir com a API. Se encontrar problemas ou tiver dúvidas, não hesite em pedir assistência. Feliz teste!
+# Exemplo de Docker Compose para Aplicação Multi-Container
 
-Ola este repositorio e sobre o Teste pratico
+Este é um exemplo de arquivo `docker-compose.yml` que ilustra como executar vários serviços como contêineres Docker usando o Docker Compose. Neste exemplo, as imagens são criadas a partir de `gabrielrocha20/testedjango:redis`, `gabrielrocha20/testedjango:django`, `gabrielrocha20/testedjango:celery` e `gabrielrocha20/testedjango:react`.
 
-o projeto foi feito o Back end em Django, celery e redis e o frontend foi feito em React
+Certifique-se de ajustar as configurações, imagens e variáveis de ambiente de acordo com suas necessidades.
 
-Temos 3 Models criados
+```yaml
+version: '3'
+services:
+  redis:
+    image: gabrielrocha20/testedjango:redis
 
-Proposta, Campo proposta e Valor_campo
+  django:
+    image: gabrielrocha20/testedjango:django
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+    environment:
+      - DEBUG=1
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+      - CELERY_BROKER=redis://redis:6379/0
+      - CELERY_BACKEND=redis://redis:6379/0
 
-1 - Campo proposta e um model onde o ADM vai poder cadastrar perguntas como
+  celery:
+    image: gabrielrocha20/testedjango:celery
+    depends_on:
+      - redis
+      - django
+    environment:
+      - DEBUG=1
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+      - CELERY_BROKER=redis://redis:6379/0
+      - CELERY_BACKEND=redis://redis:6379/0
 
-Nome
+  react:
+    image: gabrielrocha20/testedjango:react
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+```
 
-Me diga sobre voce?
-
-no model temos a possibilidade de cadastrar esses tipos de arquivo
-
-Texto, Arquivo, Image, Bollean
-
-o ADM podera escolher o tipo de dado que ele quer receber porem Vamos trabalhar apenas com Texto
-
-Sempre que usar, crie uma pergunta chamada "Nome", que será onde o usuário enviará seu nome.
-
-As demais perguntas, o ADM poderá escolher o que escrever.
-
-2- Valor_campo Este modelo será responsável por armazenar as perguntas e respostas do usuário.
-
-3 - Propostas seram as propostas aceitas pela api 
-
-e onde ficara salvo o Valor_campo
-
-## Api
-
-Get Proposta
-
-- essa url vai trazer todos as propostas salvas
-
-Get Campo Proposta
-
-- esta url vai trazer para voce todas as perguntas criadas pelo ADM no back office(pagina do ADM)
-
-Post Register
-
-- esta url e a mais importante nela o front end precisara enviar um json nesse formato
-
-{
-
-“nome”: nome do usuario,
-
-“campos_valores”: [
-
-{
-
-campo: id da pergunta,
-
-pergunta: resposta
-
-}
-
-]
-
-}
-
-Assim que fizer o post o os dados enviados pelo usuario sera salvo em propostas aceitas
-
-e logo depois sera chamado a task do celery onde ela tem a função de enviar os dados para a api de verificação e se ela retornar True os dados continuaram la porem se ela retornar False os dados vao ser deletados
-
-o django por padrao sempre retornara True quando fizerem a requisição, e ela mesmo entrara em uma fila ate ser verificada
-
-pra começar voce pode usar esse container docker para testar a aplicação sem baixar este repositorio e ter que instalar as dependencias
-
-AVISO - O celery nao esta funcionando no windowns entao usar o docker ja facilita o processo
+aqui esta o link de cada imagem do docker
+docker pull gabrielrocha20/testedjango:redis
+docker pull gabrielrocha20/testedjango:django
+docker pull gabrielrocha20/testedjango:celery
+docker pull gabrielrocha20/testedjango:react

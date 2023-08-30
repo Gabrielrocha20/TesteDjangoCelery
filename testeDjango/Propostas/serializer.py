@@ -22,9 +22,6 @@ class PropostaSerializer(serializers.ModelSerializer):
                     'campo_nome': campo.nome,
                     'tipo': campo.tipo,
                     'valor_texto': valor_campo.texto,
-                    'valor_imagem': valor_campo.imagem.url if valor_campo.imagem else None,
-                    'valor_arquivo': valor_campo.arquivo.url if valor_campo.arquivo else None,
-                    'valor_booleano': valor_campo.booleano
                 }
                 campos_data.append(campo_data)
 
@@ -40,7 +37,7 @@ class CampoPropostaSerializer(serializers.ModelSerializer):
 class ValorCampoSerializer(serializers.ModelSerializer):
     class Meta:
         model = ValorCampo
-        fields = ['campo', 'texto', 'imagem', 'arquivo', 'booleano']
+        fields = ['campo', 'texto',]
 
 class PropostaRegisterSerializer(serializers.ModelSerializer):
     campos_valores = ValorCampoSerializer(many=True, write_only=True)

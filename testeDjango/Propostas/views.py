@@ -17,6 +17,13 @@ class PropostaApiList(generics.ListAPIView):
     queryset = Proposta.objects.all()
     serializer_class = PropostaSerializer
 
+class PropostaUserApiList(generics.ListAPIView):
+    serializer_class = PropostaSerializer
+    def get_queryset(self):
+        proposta_id = self.kwargs['id']
+        queryset = Proposta.objects.filter(id=proposta_id)
+        return queryset
+
 class PropostaApiRegister(generics.ListCreateAPIView):
     queryset = Proposta.objects.all()
     serializer_class = PropostaRegisterSerializer
