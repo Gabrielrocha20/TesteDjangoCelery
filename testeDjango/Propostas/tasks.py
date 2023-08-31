@@ -36,8 +36,9 @@ def verificar_proposta(data=None, proposta_id=None):
 def deleteData(proposta_id):
     from .models import CampoProposta, Proposta, ValorCampo
     proposta = Proposta.objects.get(id=proposta_id)
-    proposta.delete()
-    print(proposta, "deletado")
+    proposta.proposta_aceita = False
+    proposta.save()
+    print(proposta, "Recusada")
 
     
         

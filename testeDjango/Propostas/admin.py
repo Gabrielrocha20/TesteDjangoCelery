@@ -14,5 +14,6 @@ class ValorCampoInline(admin.TabularInline):
 
 class PropostaAdmin(admin.ModelAdmin):
     inlines = [ValorCampoInline]
+    list_display = ('nome', 'proposta_aceita')
 
 admin.site.register(Proposta, PropostaAdmin)

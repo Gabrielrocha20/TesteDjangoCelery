@@ -20,6 +20,7 @@ class CampoProposta(models.Model):
 class Proposta(models.Model):
     nome = models.CharField(max_length=200)
     campos = models.ManyToManyField(CampoProposta, through='ValorCampo')
+    proposta_aceita = models.BooleanField(default=True)
     def __str__(self):
         return f"Proposta de {self.nome}"
     
