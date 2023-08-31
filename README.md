@@ -122,5 +122,9 @@ docker pull gabrielrocha20/testedjango:react
 
 logo apos sera carregado todo o projeto e voce podera testar
 
+Para logar no admin
+Login: admin
+senha: admin
+
 ### Link do repositorio docker
 <a>https://hub.docker.com/repository/docker/gabrielrocha20/testedjango/general</a>
